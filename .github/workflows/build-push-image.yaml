@@ -7,6 +7,9 @@ on:
         type: string
         required: true
         description: "List of tags"
+      file:
+        type: string
+        required: false
       cache-to:
         type: string
         default: type=inline
@@ -36,6 +39,7 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v1
         with:
+          file: ${{ inputs.file }}
           registry: ${{ inputs.registry }}
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
