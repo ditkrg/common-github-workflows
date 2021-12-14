@@ -30,7 +30,7 @@ on:
 jobs:
   build-push:
     name: Build and Push
-    runs-on: [self-hosted, ubuntu]
+    runs-on: [self-hosted, ubuntu-focal]
     timeout-minutes: 10
     steps:
       - name: Set up Docker Buildx
