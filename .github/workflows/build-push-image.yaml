@@ -7,6 +7,10 @@ on:
         type: string
         required: true
         description: "List of tags"
+      build-args:
+        type: string
+        required: false
+        description: "List of build-time variables"
       file:
         type: string
         required: false
@@ -51,3 +55,4 @@ jobs:
           tags: ${{ inputs.tags }}
           cache-to: ${{ inputs.cache-to }}
           cache-from: ${{ inputs.cache-from }}
+          build-args: ${{ inputs.build-args }}
