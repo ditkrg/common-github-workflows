@@ -24,6 +24,7 @@ on:
       trivy:
         type: string
         required: false
+
     secrets:
       username:
         required: true
