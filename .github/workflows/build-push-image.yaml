@@ -38,9 +38,9 @@ jobs:
     steps:
       - name: Get Last Tag
         run: |
-          image="${{ inputs.tags }}"
-          echo "and $image"
-          LAST_TAG=$(echo "$image" | cut -d' ' -f1)
+          IMAGE=$(echo ${{ inputs.tags }})
+          echo "and $IMAGE"
+          LAST_TAG=$(echo "$IMAGE" | cut -d' ' -f1)
           echo "last tag is $LAST_TAG"
           echo "IMAGE_TAG=$LAST_TAG" >> $GITHUB_ENV
     outputs:
