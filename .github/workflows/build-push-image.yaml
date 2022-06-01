@@ -37,8 +37,7 @@ jobs:
     steps:
       - name: Get Last Tag
         run: |
-          IMAGE_TAG=echo ${{ inputs.tags }} | sed '$!d'
-          echo "IMAGE_TAG=$(echo ${{ inputs.tags }} | sed '$!d')" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(echo "${{ inputs.tags }}" | sed '$!d')" >> $GITHUB_ENV
     outputs:
       IMAGE_TAG: ${{ env.IMAGE_TAG }}
 
