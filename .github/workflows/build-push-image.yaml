@@ -32,21 +32,8 @@ on:
         required: true
 
 jobs:
-  setup:
-    name: Setup
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Get Last Tag
-        run: |
-          FIRST_TAG=$(echo "${{ inputs.tags }}" | sed '1q;d')
-          echo $FIRST_TAG
-          echo "IMAGE_TAG=$FIRST_TAG" >> $GITHUB_ENV
-    outputs:
-      IMAGE_TAG: ${{ env.IMAGE_TAG }}
-
   build-push:
     name: Build and Push
-    needs: [setup]
     runs-on: [self-hosted, ubuntu-focal]
     timeout-minutes: 10
     steps:
@@ -70,7 +57,7 @@ jobs:
           cache-to: ${{ inputs.cache-to }}
           cache-from: ${{ inputs.cache-from }}
 
-      - name: Get Last Tag
+      - name: Get First Tag
         if: ${{ inputs.trivy }}
         run: |
           FIRST_TAG=$(echo "${{ inputs.tags }}" | sed '1q;d')
