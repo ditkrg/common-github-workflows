@@ -1,0 +1,19 @@
+name: Deploy To Development
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get Last Tag
+        run: |
+          LAST_TAG=$(echo "reg.dev.krd/payroll/calendar-api:dev
+                      reg.dev.krd/payroll/calendar-api:dev-893ab455371974882d4e11feefdf512eefe41808
+                      " | cut -d' ' -f1)
+          echo "last tag is $LAST_TAG"
+          echo "IMAGE_TAG=$LAST_TAG" >> $GITHUB_ENV
