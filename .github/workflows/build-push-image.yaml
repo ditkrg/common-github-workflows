@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Get Last Tag
         run: |
-          IMAGE=$(echo ${{ inputs.tags }})
+          IMAGE=$(echo "${{ inputs.tags }}")
           echo "and $IMAGE"
           LAST_TAG=$(echo "$IMAGE" | cut -d' ' -f1)
           echo "last tag is $LAST_TAG"
