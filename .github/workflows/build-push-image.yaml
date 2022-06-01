@@ -21,6 +21,9 @@ on:
         type: string
         default: reg.dev.krd
         required: false
+      trivy:
+        type: string
+        required: false
     secrets:
       username:
         required: true
@@ -28,8 +31,20 @@ on:
         required: true
 
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get Last Tag
+        run: |
+          IMAGE_TAG=echo ${{ inputs.tags }} | sed '$!d'
+          echo "IMAGE_TAG=$(echo ${{ inputs.tags }} | sed '$!d')" >> $GITHUB_ENV
+    outputs:
+      IMAGE_TAG: ${{ env.IMAGE_TAG }}
+
   build-push:
     name: Build and Push
+    needs: [setup]
     runs-on: [self-hosted, ubuntu-focal]
     timeout-minutes: 10
     steps:
@@ -44,6 +59,7 @@ jobs:
           password: ${{ secrets.password }}
 
       - name: Build Docker images
+        if: ${{ inputs.trivy }}
         uses: docker/build-push-action@v3
         with:
           load: true
@@ -53,9 +69,10 @@ jobs:
           cache-from: ${{ inputs.cache-from }}
 
       - name: Run Trivy vulnerability scanner
+        if: ${{ inputs.trivy }}
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ inputs.tags }}
+          image-ref: ${{ needs.setup.outputs.IMAGE_TAG }}
           format: "table"
 
       - name: Push Docker images
