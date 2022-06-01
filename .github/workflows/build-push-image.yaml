@@ -38,11 +38,9 @@ jobs:
     steps:
       - name: Get Last Tag
         run: |
-          IMAGE=$(echo "${{ inputs.tags }}")
-          echo "and $IMAGE"
-          LAST_TAG=$(echo "$IMAGE" | cut -d' ' -f1)
-          echo $LAST_TAG
-          echo "IMAGE_TAG=$LAST_TAG" >> $GITHUB_ENV
+          FIRST_TAG=$(echo "${{ inputs.tags }}" | sed '1q;d')
+          echo $FIRST_TAG
+          echo "IMAGE_TAG=$FIRST_TAG" >> $GITHUB_ENV
     outputs:
       IMAGE_TAG: ${{ env.IMAGE_TAG }}
 
