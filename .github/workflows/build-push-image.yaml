@@ -21,9 +21,31 @@ on:
         type: string
         default: reg.dev.krd
         required: false
+
+      # Trivy Options
       trivy:
         type: string
         required: false
+        default: false
+        description: Enable trivy image vulnerability check
+
+      exit-code:
+        type: number
+        required: false
+        default: 0
+        description: Exit code when vulnerabilities were found
+
+      severity:
+        type: string
+        required: false
+        default: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+        description: severities of vulnerabilities to be displayed (comma separated)
+
+      format:
+        type: string
+        required: false
+        default: table
+        description: How to display the results
 
     secrets:
       username:
@@ -69,7 +91,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_TAG }}
-          format: "table"
+          format: ${{ inputs.format }}
+          exit-code: ${{ inputs.exit-code }}
+          severity: ${{ inputs.severity }}
 
       - name: Push Docker images
         uses: docker/build-push-action@v3
