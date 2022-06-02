@@ -30,7 +30,7 @@ on:
       trivy:
         type: boolean
         required: false
-        default: false
+        default: true
         description: Enable trivy image vulnerability check
 
       trivy-exit-code:
