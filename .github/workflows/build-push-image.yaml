@@ -28,7 +28,7 @@ on:
 
       # Trivy Options
       trivy:
-        type: string
+        type: boolean
         required: false
         default: false
         description: Enable trivy image vulnerability check
