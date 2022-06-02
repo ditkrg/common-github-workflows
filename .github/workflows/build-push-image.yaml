@@ -33,19 +33,19 @@ on:
         default: false
         description: Enable trivy image vulnerability check
 
-      exit-code:
+      trivy-exit-code:
         type: number
         required: false
         default: 0
         description: Exit code when vulnerabilities were found
 
-      severity:
+      trivy-severity:
         type: string
         required: false
         default: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
         description: severities of vulnerabilities to be displayed (comma separated)
 
-      format:
+      trivy-format:
         type: string
         required: false
         default: table
@@ -82,6 +82,7 @@ jobs:
           tags: ${{ inputs.tags }}
           cache-to: ${{ inputs.cache-to }}
           cache-from: ${{ inputs.cache-from }}
+          build-args: ${{ inputs.build-args }}
 
       - name: Get First Tag
         if: ${{ inputs.trivy }}
@@ -99,7 +100,7 @@ jobs:
           exit-code: ${{ inputs.exit-code }}
           severity: ${{ inputs.severity }}
 
-      - name: Push Docker images
+      - name: Build and Push
         uses: docker/build-push-action@v3
         with:
           push: true
