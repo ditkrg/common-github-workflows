@@ -51,12 +51,12 @@ on:
         default: table
         description: How to display the results
 
-    # NPMrc generation options
-    generate-npmrc:
-      type: boolean
-      required: false
-      default: false
-      description: Generate npmrc config file
+      # NPMrc generation options
+      generate-npmrc:
+        type: boolean
+        required: false
+        default: false
+        description: Generate npmrc config file
 
     secrets:
       username:
