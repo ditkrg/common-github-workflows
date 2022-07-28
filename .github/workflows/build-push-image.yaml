@@ -51,11 +51,20 @@ on:
         default: table
         description: How to display the results
 
+    # NPMrc generation options
+    generate-npmrc:
+      type: boolean
+      required: false
+      default: false
+      description: Generate npmrc config file
+
     secrets:
       username:
         required: true
       password:
         required: true
+      npmrc-token:
+        required: false
 
 jobs:
   build-push:
@@ -72,6 +81,14 @@ jobs:
           registry: ${{ inputs.registry }}
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
+
+      - name: create npmrc file
+        if: ${{ inputs.generate-npmrc }}
+        run: |
+          cat >.npmrc <<EOL
+          //npm.pkg.github.com/:_authToken=${{ secrets.npmrc-token }}
+          @ditkrg:registry=https://npm.pkg.github.com/
+          EOL
 
       - name: Build Docker images
         if: ${{ inputs.trivy }}
